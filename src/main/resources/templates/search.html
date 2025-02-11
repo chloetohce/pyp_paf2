@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Search Our Accommodations</h1>
+
+    <div th:if="${errors != null}">
+        <ul>
+            <li th:each="err : ${errors}" th:text="${err}"></li>
+        </ul>
+    </div>
+    <form method="get" action="/search">
+        <table>
+            <tbody>
+                <tr>
+                    <td><label for="country">Country:</label></td>
+                    <td>
+                        <select name="country" id="country">
+                            <option th:each="c : ${countries}" value="${c}" th:text="${c}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numPerson">Number of persons:</label></td>
+                    <td>
+                        <input type="number" name="numPerson" id="numPerson">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Price range: </td>
+                    <td>
+                        <label for="priceMin">Min</label>
+                        <input type="number" name="priceMin" id="priceMin" style="width: 40px;">
+                        <label for="priceMax">Max</label>
+                        <input type="number" name="priceMax" id="priceMax" style="width: 40px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        <button type="submit">Search</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
