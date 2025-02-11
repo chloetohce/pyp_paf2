@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import vttp2023.batch3.assessment.paf.bookings.models.Accommodation;
 import vttp2023.batch3.assessment.paf.bookings.services.ListingsService;
 
 
@@ -57,7 +58,10 @@ public class ListingsController {
 			return "search";
 		}
 		
-		return new String();
+		List<Accommodation> results = service.searchAccoms(country, numPerson, priceMin, priceMax);
+		model.addAttribute("country", country);
+		model.addAttribute("accomms", results);
+		return "results";
 	}
 	
 	

@@ -20,7 +20,7 @@
                     <td><label for="country">Country:</label></td>
                     <td>
                         <select name="country" id="country">
-                            <option th:each="c : ${countries}" value="${c}" th:text="${c}"></option>
+                            <option th:each="c : ${countries}" th:value="${c}" th:text="${c}"></option>
                         </select>
                     </td>
                 </tr>

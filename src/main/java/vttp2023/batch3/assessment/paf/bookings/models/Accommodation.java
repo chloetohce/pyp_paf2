@@ -7,7 +7,7 @@ public class Accommodation {
 
     private double price;
 
-    private String image_url;
+    private String imageUrl;
 
     public String getId() {
         return id;
@@ -33,12 +33,12 @@ public class Accommodation {
         this.price = price;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     

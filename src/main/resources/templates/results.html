@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <h1>Listings for <span th:text="${country}"></span></h1>
+
+        <p th:if="${#arrays.length(accomms) == 0}">There are no listings that match your search query.</p>
+
+        <table th:unless="${#arrays.length(accomms) == 0}" >
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="a : ${accomms}">
+                    <td th:text="${a.name}"></td>
+                    <td th:text="${#numbers.formatDecimal(a.price,3,2)}"></td>
+                    <td><img th:src="${a.imageUrl}" style="width: 300px;"></td>
+                    <td th:text="${a.id}"></td>
+                </tr>
+            </tbody>
+        </table>
+</body>
+</html>
