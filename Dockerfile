@@ -1,19 +1,18 @@
-FROM eclipse-temurin:23-noble AS builder
+FROM eclipse-temurin:21-noble AS builder
 
 WORKDIR /src
 
 # copy files
 COPY mvnw .
-COPY mvnw.cmd .
 COPY pom.xml .
 
 COPY .mvn .mvn
 COPY src src
 
 # make mvnw executable
-RUN chmod a+x mvnw && /src/mvnw package -Dmaven.test.skip=true
+RUN chmod a+x mvnw && ./mvnw package -Dmaven.test.skip=true
 
-FROM eclipse-temurin:23-jre-noble
+FROM eclipse-temurin:21-jre-noble
 
 WORKDIR /app
 
