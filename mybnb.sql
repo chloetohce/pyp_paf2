@@ -5,7 +5,8 @@ use mybnb;
 create table acc_occupancy(
 acc_id char(10) not null,
 vacancy int,
-constraint pk_acc_id primary key(acc_id));
+constraint pk_acc_id primary key(acc_id),
+constraint chk_vacancy check (vacancy>=0));
 
 create table reservations(
 resv_id char(8) not null,

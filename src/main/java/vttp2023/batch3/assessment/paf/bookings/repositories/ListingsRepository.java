@@ -1,9 +1,11 @@
 package vttp2023.batch3.assessment.paf.bookings.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -12,13 +14,19 @@ import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import vttp2023.batch3.assessment.paf.bookings.models.Booking;
 
 @Repository
 public class ListingsRepository {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	//TODO: Task 2
 
@@ -67,9 +75,45 @@ public class ListingsRepository {
 	
 
 	//TODO: Task 4
-	
+	/*
+	 * 	db.listings.find(
+	 * 		{_id: <id>},
+	 * 		{_id:1, description:1, 'address.street':1, 'address.suburb':1, 'address.country':1, 
+	 * 		'image_url':'$images.picture_url', price:1, amenities:1}
+	 * 	)
+	 */
+	public Optional<Document> getAccomDetails(String id) {
+		Criteria criteria = Criteria.where("_id").is(id);
+		Query q = Query.query(criteria);
+		q.fields()
+			.include("_id", "description", "address.street", "address.suburb", "address.country", "price", "amenities", "images.picture_url");
+		return Optional.ofNullable(mongoTemplate.findOne(q, Document.class, 
+			"listings"));
+	}
 
 	//TODO: Task 5
+	/*
+	 * 	insert into reservations 
+	 * 	values(resv_id, name, email, acc_id, arrival, duration)
+	 */
+	public void reserveBooking(Booking booking) {
+		String SQL_RESERVATION = "insert into reservations values(?, ?, ?, ?, ?, ?)";
+
+		jdbcTemplate.update(SQL_RESERVATION, 
+			booking.getResvId(), booking.getName(), booking.getEmail(), booking.getAccId(), 
+			booking.getArrival(), booking.getDuration());
+		
+	}
+
+	/*
+	 * 	update acc_occupancy
+	 * 	set vacancy = vacancy - ?
+	 * 	where acc_id = ?;
+	 */
+	public void updateVacancy(String id, int duration) {
+		String SQL_UPDATE_VACANCY = "update acc_occupancy set vacancy = vacancy - ? where acc_id = ?";
+		jdbcTemplate.update(SQL_UPDATE_VACANCY, duration, id); // Throws Uncategorized SQL Exception
+	}
 
 
 }

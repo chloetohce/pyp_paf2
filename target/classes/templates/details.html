@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/search">Back</a>
+    <p th:unless="${message == null}" th:text="${message}"></p>
+    <table th:if="${message == null and details != null}">
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td th:text="${details.id}"></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td th:text="${details.description}"></td>
+                <td><img th:src="${details.imageUrl}" style="width: 300px;"></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>
+                    <p th:text="${details.street}"></p>
+                    <p th:text="${details.suburb}"></p>
+                    <p th:text="${details.country}"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td th:text="${details.price}"></td>
+            </tr>
+            <tr>
+                <td>Amenities</td>
+                <td th:text="${details.amenities}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="post" th:action="@{/booking/submit/{aid}(aid=${details.id})}" th:object="${booking}" th:if="${message == null}">
+        <h2>Bookings</h2>
+        <div th:if="${bookingMsg != null}">
+            <p>Error with submitting your booking.</p>
+            <p th:text="${bookingMsg}"></p>
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <input type="hidden" th:field="*{resvId}" th:value="*{resvId}">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="name">Name</label></td>
+                <td><input type="text" th:field="*{name}" id="name"></td>
+            </tr>
+            <tr>
+                <td><label for="email">Email</label></td>
+                <td><input type="text" th:field="*{email}" id="email"></td>
+            </tr>
+            <tr>
+                <td><label for="arrival">Arrival</label></td>
+                <td><input type="date" th:field="*{arrival}" id="arrival"></td>
+            </tr>
+            <tr>
+                <td><label for="duration">Name</label></td>
+                <td><input type="text" th:field="*{duration}" id="duration"><span> days</span></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td align="right"><button type="submit">Submit</button></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
